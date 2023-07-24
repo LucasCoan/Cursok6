@@ -3,13 +3,18 @@ import { sleep } from 'k6';
 import { Trend, Rate, Counter } from "k6/metrics";
 import { check, fail } from "k6";
 
+export const options = {
+    vus: 1, 
+    duration: '1m',
+  };
+
 export let GetCustomerDuration = new Trend('get_customer_duration');
 export let GetCustomerFailRate = new Rate('get_customer_fail_rate');
 export let GetCustomerSuccessRate = new Rate('get_customer_success_rate');
 export let GetCustomerReqs = new Rate('get_customer_reqs');
 
 export default function () {
-    let res = http.get('https://localhost:5001/api/Customer/GetCustomer?id=1')
+    let res = http.get('https://test-api.k6.io')
     
     GetCustomerDuration.add(res.timings.duration);
     GetCustomerReqs.add(1);
